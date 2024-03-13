@@ -1,9 +1,37 @@
+
+@import '../../style/vars';
+
+// @mixin viewport-md {
+//   @media screen and (max-width: 768px) {
+//     @content;
+//   }
+// }
+
 .text-block {
   text-align: center;
 
   & p {
     font-family: 'Abril Fatface';
-    font-size: 100px;
-    color: white;
+    font-size: 80px;
+    color: transparent;
+    background: url('../../images/pizza.webp');
+    background-clip: text;
+    animation: moveBackground 10s linear infinite;
+
+    @include viewport-md {
+      font-size: 120px;
+    }
+  }
+
+  @keyframes moveBackground {
+    0% {
+      background-position: 0 0; 
+    }
+    50% {
+      background-position: 100% 100%;
+    }
+    100% {
+      background-position: 0 0; 
+    }
   }
 }
