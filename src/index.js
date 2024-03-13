@@ -8,6 +8,6 @@ const root = ReactDOM.createRoot(mainEl);
 
 root.render(
   <>
-    <AnimatedText text={'Привіт, любитель піцци!'} />
+    <AnimatedText text={'Hello, pizza lover!'} />
   </>
 );

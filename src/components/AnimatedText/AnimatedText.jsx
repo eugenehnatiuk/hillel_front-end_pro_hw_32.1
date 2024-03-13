@@ -19,7 +19,7 @@ const AnimatedText = ({ text }) => {
     if (!showLoader) {
       const interval = setInterval(() => {
         if (index.current < text.length) {
-          setCurrentChar(text.charAt(index.current).toLowerCase());
+          setCurrentChar(text.charAt(index.current));
           index.current++;
         } else {
           clearInterval(interval);
@@ -34,7 +34,7 @@ const AnimatedText = ({ text }) => {
     <div className="text-block">
       {showLoader && <Loading />}
       <p>{currentChar}</p>
-      {showFullText && <p>{text.toUpperCase()}</p>}
+      {showFullText && <p>{text}</p>}
     </div>
   );
 };
