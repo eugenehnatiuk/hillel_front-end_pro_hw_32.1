@@ -1,25 +1,39 @@
 import './animatedText.scss';
 import React, { useState, useEffect, useRef } from 'react';
+import Loading from '../Loading/Loading.jsx';
 
 const AnimatedText = ({ text }) => {
-  const [currentLetter, setCurrentChar] = useState('');
+  const [currentChar, setCurrentChar] = useState('');
   const [showFullText, setShowFullText] = useState(false);
+  const [showLoader, setshowLoader] = useState(true);
 
-  const currentIndex = useRef(0);
+  const index = useRef(0);
 
-  setTimeout(() => {
-    if (currentIndex.current < text.length) {
-      setCurrentChar(text.charAt(currentIndex.current));
-      currentIndex.current++;
-    } else {
-      setCurrentChar('');
-      setShowFullText(true);
+  useEffect(() => {
+    setTimeout(() => {
+      setshowLoader(false);
+    }, 2000);
+  }, []);
+
+  useEffect(() => {
+    if (!showLoader) {
+      const interval = setInterval(() => {
+        if (index.current < text.length) {
+          setCurrentChar(text.charAt(index.current).toLowerCase());
+          index.current++;
+        } else {
+          clearInterval(interval);
+          setCurrentChar('');
+          setShowFullText(true);
+        }
+      }, 100);
     }
-  }, 90);
+  }, [showLoader]);
 
   return (
     <div className="text-block">
-      <p>{currentLetter.toUpperCase()}</p>
+      {showLoader && <Loading />}
+      <p>{currentChar}</p>
       {showFullText && <p>{text.toUpperCase()}</p>}
     </div>
   );
