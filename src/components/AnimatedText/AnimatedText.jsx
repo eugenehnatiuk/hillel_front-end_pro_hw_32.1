@@ -15,7 +15,7 @@ const AnimatedText = ({ text }) => {
       setCurrentChar('');
       setShowFullText(true);
     }
-  }, 70);
+  }, 90);
 
   return (
     <div className="text-block">
