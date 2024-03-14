@@ -3,7 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const webpack = require('webpack');
-const CopyPlugin = require('copy-webpack-plugin');
+// const CopyPlugin = require('copy-webpack-plugin');
 
 module.exports = (env) => {
   const isDev = env.mode === 'development';
@@ -15,6 +15,7 @@ module.exports = (env) => {
       path: path.resolve(__dirname, 'build'),
       filename: 'bundle.[contenthash].js',
       clean: true,
+      // assetModuleFilename: path.join('static', '[name].[ext]'),
     },
     devServer: {
       port: env.port ?? 7000, // env обьект окружения со свойством port если не указан '-- --env port=xxxx', то 7000
@@ -23,22 +24,22 @@ module.exports = (env) => {
         writeToDisk: true,
       },
     },
-    // devtool: isDev ? 'inline-source-map' : false,
-    devtool: 'inline-source-map',
+    devtool: isDev ? 'inline-source-map' : false,
+    // devtool: 'inline-source-map',
     plugins: [
       new HtmlWebpackPlugin({
         template: path.resolve(__dirname, 'src', 'index.html'),
-        // favicon: path.resolve(__dirname, 'src', 'images', 'favicon-32x32.png'),
+        favicon: path.resolve(__dirname, 'src', 'images', 'favicon.png'),
       }),
       new MiniCssExtractPlugin({ filename: 'style.[contenthash].css' }),
 
-      isDev ? new webpack.ProgressPlugin() : undefined,
-      // to see the building progression
-      new CopyPlugin({
-        patterns: [
-          { from: 'src/images', to: 'images' }, // Копіює файли з src/images у папку build/images
-        ],
-      }),
+      isDev ? new webpack.ProgressPlugin() : undefined, // to see the building progression
+      // new CopyPlugin({
+      //   patterns: [
+      //     { from: 'src/images', to: 'build/images' }, // Копіює файли з src/images у папку build/static/images
+      //     { from: 'src/fonts', to: 'build/fonts' },
+      //   ],
+      // }),
     ],
     optimization: {
       minimizer: [
@@ -87,6 +88,20 @@ module.exports = (env) => {
                 },
               }
             : [], // undefined
+        },
+        {
+          test: /\.(woff|woff2|ttf|otf|eot)$/,
+          type: 'asset/resource',
+          generator: {
+            filename: 'fonts/[name][ext]',
+          },
+        },
+        {
+          test: /\.(jpe?g|png|gif|svg|ico|webp)$/,
+          type: 'asset/resource',
+          generator: {
+            filename: 'images/[name][ext]',
+          },
         },
       ],
     },

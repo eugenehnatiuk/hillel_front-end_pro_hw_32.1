@@ -21,11 +21,12 @@ const AnimatedText = ({ text }) => {
         if (index.current < text.length) {
           setCurrentChar(text.charAt(index.current));
           index.current++;
-        } else {
-          clearInterval(interval);
-          setCurrentChar('');
-          setShowFullText(true);
+          return;
         }
+
+        clearInterval(interval);
+        setCurrentChar('');
+        setShowFullText(true);
       }, 100);
     }
   }, [showLoader]);
